@@ -11,9 +11,21 @@ SORT_NAME_TO_FUNC = {
 
 
 def main(args):
-    test_seqs = [[random.randrange(args.max) for _ in range(args.seq_length)] 
-                 for _ in range(args.n_tests)]
-    test_seqs.extend([[], [1], [1, 2], [1, 2, 3]])
+    test_seqs = [
+        [random.randrange(args.min, args.max) for _ in range(args.seq_length)] 
+        for _ in range(args.n_tests)
+    ]
+    test_seqs.extend([
+        [], 
+        [1], 
+        [1, 2], 
+        [0] * args.seq_length,
+        sorted([random.randrange(args.min, args.max) for _ in range(args.seq_length)]),
+        sorted([random.randrange(args.min, args.max) for _ in range(args.seq_length)], 
+               reverse=True),
+        [random.randrange(args.min, args.max)] * args.seq_length,
+        [random.randrange(args.min, args.max)] * 10**6,
+    ])
     
     for seq in tqdm(test_seqs):
         sorted_seq = SORT_NAME_TO_FUNC[args.sort](seq)
@@ -37,6 +49,8 @@ if __name__ == '__main__':
                         help='length of sequence to test sort')
     parser.add_argument('--max', type=int, default=100,
                         help='max value of random numbers in sequences')
+    parser.add_argument('--min', type=int, default=-100,
+                        help='min value of random numbers in sequences')
     parser.add_argument('--n-tests', type=int, default=100,
                         help='number of auto tests')
     
