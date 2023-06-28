@@ -4,13 +4,14 @@ from typing import Callable, Iterable, TypeVar
 
 from tqdm import tqdm
 
-from sort import insertion_sort, selection_sort
+from sort import insertion_sort, selection_sort, merge_sort
 
 T = TypeVar('T')
 
-SORT_NAME_TO_FUNC: dict[str, Callable[[Iterable[T]], Iterable[T]]] = {
+SORT_NAME_TO_FUNC: dict[str, Callable[[Iterable[T], bool], Iterable[T]]] = {
     'insertion_sort': insertion_sort,
     'selection_sort': selection_sort,
+    'merge_sort': merge_sort,
 }
 
 
