@@ -1,6 +1,8 @@
 import random
 from argparse import ArgumentDefaultsHelpFormatter, ArgumentParser, Namespace
 
+from tqdm import tqdm
+
 
 def binary_add(first: list[int], second: list[int]) -> list[int]:
     result = [0] * (len(first) + 1)
@@ -32,6 +34,10 @@ def number_to_binary_list(number: int, num_bits: int) -> list[int]:
     return [int(bit) for bit in bin(number)[2:].zfill(num_bits)]
 
 
+def binary_list_to_number(binary_list: list[int]) -> int:
+    return int(''.join([str(bit) for bit in binary_list]), base=2)
+
+
 def main(args: Namespace):
     test_numbers = [
         [random.randrange(args.max), random.randrange(args.max)]
@@ -40,12 +46,14 @@ def main(args: Namespace):
 
     num_bits = len(f'{args.max:b}')
 
-    for (first, second) in test_numbers:
+    for (first, second) in tqdm(test_numbers):
         true_result = first + second
-        result = int(''.join([str(bit)
-                              for bit in binary_add(number_to_binary_list(first, num_bits),
-                                                    number_to_binary_list(second, num_bits))]),
-                     2)
+        result = binary_list_to_number(
+            binary_add(
+                number_to_binary_list(first, num_bits),
+                number_to_binary_list(second, num_bits)
+            )
+        )
 
         assert result == true_result, (f'Wrong result for {first} + {second}\n'
                                        f'Expected: {true_result}\n',
