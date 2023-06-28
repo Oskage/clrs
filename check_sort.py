@@ -4,12 +4,13 @@ from typing import Callable, Iterable, TypeVar
 
 from tqdm import tqdm
 
-from sort import insertion_sort
+from sort import insertion_sort, selection_sort
 
 T = TypeVar('T')
 
 SORT_NAME_TO_FUNC: dict[str, Callable[[Iterable[T]], Iterable[T]]] = {
     'insertion_sort': insertion_sort,
+    'selection_sort': selection_sort,
 }
 
 
@@ -28,7 +29,7 @@ def main(args: Namespace):
         sorted([random.randrange(args.min, args.max) for _ in range(args.seq_length)],
                reverse=True),
         [random.randrange(args.min, args.max)] * args.seq_length,
-        [random.randrange(args.min, args.max)] * 10**6,
+        [random.randrange(args.min, args.max) for _ in range(10**3)],
     ])
 
     for seq in tqdm(test_seqs):
@@ -48,7 +49,8 @@ def main(args: Namespace):
 
 if __name__ == '__main__':
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
-    parser.add_argument('sort', type=str, choices=['insertion_sort'])
+    parser.add_argument('sort', type=str,
+                        choices=list(SORT_NAME_TO_FUNC.keys()))
     parser.add_argument('--seq-length', type=int, default=100,
                         help='length of sequence to test sort')
     parser.add_argument('--max', type=int, default=100,
