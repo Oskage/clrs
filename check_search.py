@@ -4,12 +4,13 @@ from typing import Callable, Iterable, TypeVar
 
 from tqdm import tqdm
 
-from search import linear_search
+from search import linear_search, binary_search
 
 T = TypeVar('T')
 
 SEARCH_NAME_TO_FUNC: dict[str, Callable[[Iterable[T], T], T | None]] = {
     'linear_search': linear_search,
+    'binary_search': binary_search,
 }
 
 
@@ -50,6 +51,9 @@ def main(args: Namespace):
     ])
 
     for seq in tqdm(test_seqs):
+        if args.search == 'binary_search':
+            seq = sorted(list(set(seq)))
+
         if len(seq) == 0:
             target = None
         else:
@@ -75,7 +79,8 @@ def main(args: Namespace):
 
 if __name__ == '__main__':
     parser = ArgumentParser(formatter_class=ArgumentDefaultsHelpFormatter)
-    parser.add_argument('search', type=str, choices=['linear_search'])
+    parser.add_argument('search', type=str,
+                        choices=list(SEARCH_NAME_TO_FUNC.keys()))
     parser.add_argument('--seq-length', type=int, default=100,
                         help='length of sequence to test sort')
     parser.add_argument('--max', type=int, default=100,
