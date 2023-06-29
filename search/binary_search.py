@@ -3,13 +3,6 @@ from typing import Iterable, TypeVar
 T = TypeVar('T')
 
 
-def linear_search(sequence: Iterable[T], target: T) -> T | None:
-    for idx, value in enumerate(sequence):
-        if value == target:
-            return idx
-    return None
-
-
 def binary_search(sequence: Iterable[T], target: T) -> T | None:
     left = 0
     right = len(sequence)
