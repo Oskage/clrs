@@ -3,7 +3,7 @@ from typing import Iterable, TypeVar
 T = TypeVar('T')
 
 
-def binary_search(sequence: Iterable[T], target: T) -> T | None:
+def binary_search(sequence: Iterable[T], target: T) -> int | None:
     left = 0
     right = len(sequence)
 

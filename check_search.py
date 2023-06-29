@@ -8,7 +8,7 @@ from search import linear_search, binary_search
 
 T = TypeVar('T')
 
-SEARCH_NAME_TO_FUNC: dict[str, Callable[[Iterable[T], T], T | None]] = {
+SEARCH_NAME_TO_FUNC: dict[str, Callable[[Iterable[T], T], int | None]] = {
     'linear_search': linear_search,
     'binary_search': binary_search,
 }
